@@ -7,6 +7,9 @@ pipeline {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
+options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
@@ -19,6 +22,7 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
         NEXUSPASS = 'nexuspass'
+	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 	    stages {
         stage('Build'){
