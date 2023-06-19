@@ -86,11 +86,12 @@ stage('QUALITY GATE') {
                     )
                 }
 			    post{
+				    def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
         always {
             echo 'Slack Notifications'
             slackSend channel: '#jenkinscicd',
-                color: COLOR_MAP[currentBuild.result],
-                message: "*${currentBuild.result}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
     }
         }
