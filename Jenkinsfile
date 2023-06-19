@@ -29,8 +29,8 @@ pipeline {
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
-        }
-            stage('Test'){
+    }
+	stage('Test'){
             steps {
                 sh 'mvn test'
             }
@@ -53,12 +53,19 @@ pipeline {
                    -Dsonar.projectName=vprofile-repo \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest \
+                   -Dsonar.java.binaries=target/test/java/com/krishna/demo \
                    -Dsonar.junit.reportsPath=target/surefire-reports/ \
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
             }
           }
+}
+stage('QUALITY GATE') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+               waitForQualityGate abortPipeline: true
+            }
+            }
 }
 	    }
 }
