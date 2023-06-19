@@ -4,6 +4,7 @@ pipeline {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
+def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
 	
     environment {
         SNAP_REPO = 'vprofile-snapshot'
@@ -87,7 +88,6 @@ stage('QUALITY GATE') {
                 }
 			    post{
         always {
-	COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
             echo 'Slack Notifications'
             slackSend channel: '#jenkinscicd',
                 color: COLOR_MAP[currentBuild.currentResult],
